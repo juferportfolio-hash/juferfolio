@@ -21,10 +21,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="https://use.typekit.net/pok1buc.css" />
       </head>
       <body className="h-full bg-bg text-ink font-archivo">
-        <Frame>
+        <div className="fixed inset-3 flex flex-col">
           <Header />
-          {children}
-        </Frame>
+          <Frame>{children}</Frame>
+        </div>
       </body>
     </html>
   );

@@ -13,6 +13,13 @@ export function tagColor(id: TagId) {
   return TAG_COLORS[id];
 }
 
+function hexToRgba(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 interface TagProps {
   id: TagId;
   label: string;
@@ -35,10 +42,15 @@ export default function Tag({
 
   const style = filled
     ? { backgroundColor: color, borderColor: color, color: "#FBFAF6" }
-    : { borderColor: color, color, backgroundColor: "transparent" };
+    : ({
+        borderColor: color,
+        color,
+        "--tag-hover-bg": hexToRgba(color, 0.12),
+      } as React.CSSProperties);
 
-  const className =
-    "inline-flex items-center rounded-full border px-[18px] py-[5px] font-archivo text-[16px] font-medium leading-none transition-colors md:text-[18px]";
+  const className = `inline-flex items-center border px-[18px] py-[8px] font-archivo text-[16px] font-medium leading-none transition-colors md:text-[18px] ${
+    filled ? "" : "tag-hoverable"
+  }`;
 
   if (as === "button") {
     return (

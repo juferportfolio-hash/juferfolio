@@ -9,11 +9,19 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const onProject = pathname?.startsWith("/projects/");
 
+  function handleLogoClick(e: React.MouseEvent) {
+    setOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      document.getElementById("frame-scroll")?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
   return (
-    <header className="sticky top-0 z-30 flex h-[72px] shrink-0 items-center justify-between border-b border-gray bg-bg px-5 md:h-[92px] md:px-[30px]">
+    <header className="flex h-[72px] shrink-0 items-center justify-between px-5 md:h-[92px] md:px-[30px]">
       <Link
         href="/"
-        onClick={() => setOpen(false)}
+        onClick={handleLogoClick}
         className="hover-roman font-caslon text-[30px] font-bold leading-none md:text-[40px]"
       >
         júlia ferreira
@@ -60,7 +68,7 @@ export default function Header() {
       </button>
 
       {open && (
-        <nav className="fixed inset-x-0 top-[72px] bottom-0 z-20 flex flex-col gap-2 bg-bg px-5 py-8 md:hidden">
+        <nav className="fixed left-3 right-3 top-[84px] bottom-3 z-20 flex flex-col gap-2 bg-bg px-5 py-8 md:hidden">
           <Link
             href="/#projects"
             onClick={() => setOpen(false)}

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #fbfaf6;
+  --color-bg: #fbf9f1;
   --color-ink: #171717;
   --color-gray: #adadad;
 
@@ -59,6 +59,14 @@ body {
 .frame-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-gray) transparent;
+}
+
+/* Subtle tinted hover for outline-style tag pills, in the tag's own color */
+.tag-hoverable {
+  background-color: transparent;
+}
+.tag-hoverable:hover {
+  background-color: var(--tag-hover-bg);
 }
 
 @keyframes swipe-hint {
