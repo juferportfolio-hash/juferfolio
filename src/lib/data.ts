@@ -32,6 +32,13 @@ export interface Project {
   images: ProjectImage[];
 }
 
+// Every commission piece shares this description (per Júlia's own text: "template
+// for every commission, changing only year and duration") — only the tool name
+// changes, pulled from each project's own `tool` field below.
+function commissionDescription(tool: string): string {
+  return `Created with ${tool} and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.`;
+}
+
 const descriptions: Record<string, string> = {
   "river-clearing": "A quiet clearing where a stream cuts through tall grass, painted as a study in light and reflection.",
   "forest-shrine": "A traveler rests beside a weathered torii gate on the edge of the woods.",
@@ -44,24 +51,10 @@ const descriptions: Record<string, string> = {
   "countryside-train": "A local train winds along power lines through open countryside.",
   "station-bench": "An old wooden bench waits in the quiet hall of a traditional train station.",
   "vending-machine-street": "A backstreet corner with a glowing vending machine, painted in the last light of evening.",
-  "still-waters": "A commissioned character study, submerged in still, shadowed water.",
-  "hero-duo": "Two heroes brace for action beneath a bright sky, painted for a client's original characters.",
-  "character-turnaround": "A full character turnaround sheet built for reference across multiple poses.",
-  "streetlight-friends": "Two friends share a laugh on a tree-lined street corner, commissioned as a birthday gift.",
-  "red-curtain-dance": "A commissioned portrait of two dancers caught mid-step before heavy red curtains.",
-  "formal-portrait": "A clean, minimal commission portrait dressed for a formal evening.",
-  "branch-over-ocean": "A couple commissioned together, perched on a branch above the open sea.",
-  "split-portrait": "A two-panel commissioned portrait set against blooming cherry blossoms.",
-  "bridge-friends": "A group of friends pause on a bridge in their school uniforms, commissioned as a keepsake.",
-  "plaid-skirt-character": "An original character commission, rendered clean against a plain backdrop.",
-  "crouching-portrait": "A minimal, moody character study commissioned in a limited palette.",
-  "dock-with-family": "A family commission spent together at the edge of a lily-covered pond.",
-  "forest-vignette": "A vignette commission of a quiet moment shared in the forest.",
-  "orange-scarf-hug": "A warm commissioned portrait of a couple wrapped up together against the cold.",
-  "cherry-blossom-trio": "Three friends commissioned together beneath the cherry blossoms.",
-  "kitchen-couple": "A commissioned everyday moment, shared over coffee in the kitchen.",
-  "sailing-couple": "A commissioned couple portrait out on the water, sails catching the wind.",
-  "laptop-silhouette": "A quiet commissioned study of two people working side by side.",
+  "spring-in-the-floating-world": "Crafted during my second semester of a year-long academic exchange in Darmstadt, Germany, Spring in the Floating World is the first illustrated book I had the opportunity to work on. It's idea was created amidst the weekly encounters of the course Entwurf III/IV by Sabine Zimmermann at the Hochschule Darmstadt's Design Faculty. The course had the theme \"geist\", or \"ghost\", as a starting point, which I've decided to portray as memories displayed through the observation and painting of daily life landscapes and fragments.",
+  "mural-painting": "Inspired by the university's setting and the fostering of education and innovation, this mural painting was commissioned by Pontifícia Universidade Católica to ornate the wall of PIUES's office. Work with the collaboration of the visual artists Pedro Padilha and Mateu Velasco.",
+  "daad-illustrations": "Following my one year stay in Germany, of which's first five months were supported by DAAD's STIBET grant, I had the opportunity to join the DAAD Brasil team at its regional office in Rio de Janeiro as an intern working with communication and design. Creating illustrations for DAAD Brasil's pages on social media was part of my job, amongst other daily tasks that allowed me to explore design and art through image and text juxtaposition.",
+  "pattern-design": "This pattern design was created in collaboration with the textile designer Patrícia Bomeny and commissioned by Shopping Leblon and Lenny Niemeyer's collaborative campaign in celebration of their 30 and 35 year anniversary respectively. Besides its application on fabric for clothing, the pattern was later used to ornate Shopping Leblon's 275sqm glass front and inspire Lenny Niemeyer's store display painting, also created by Patrícia and I.",
 };
 
 const raw: (Omit<Project, "description" | "images"> & {
@@ -97,11 +90,17 @@ const raw: (Omit<Project, "description" | "images"> & {
   { slug: "kitchen-couple", title: "Kitchen Couple", tags: ["comission", "digital"], tool: "Procreate", date: "2026", time: "4 hours", width: 2000, height: 1139 },
   { slug: "sailing-couple", title: "Sailing Couple", tags: ["comission", "digital"], tool: "Procreate", date: "2026", time: "6 hours", width: 2000, height: 1455 },
   { slug: "laptop-silhouette", title: "Laptop Silhouette", tags: ["comission", "digital"], tool: "Procreate", date: "2026", time: "3 hours", width: 2000, height: 1539 },
+  { slug: "spring-in-the-floating-world", title: "Spring in the Floating World", tags: ["traditional", "concept"], tool: "", date: "2025", time: "3 months", width: 1525, height: 965 },
+  { slug: "mural-painting", title: "Mural painting", tags: ["traditional", "comission"], tool: "", date: "2026", time: "20 hours", width: 2000, height: 1334 },
+  { slug: "daad-illustrations", title: "Illustrations for social media", tags: ["digital", "concept"], tool: "", date: "2026", time: "-", width: 2000, height: 1125 },
+  { slug: "pattern-design", title: "Pattern design", tags: ["digital", "comission"], tool: "", date: "2026", time: "20 hours", width: 1618, height: 2000 },
 ];
 
 export const PROJECTS: Project[] = raw.map((p) => ({
   ...p,
-  description: descriptions[p.slug] ?? "",
+  description:
+    descriptions[p.slug] ??
+    (p.tags.includes("comission") ? commissionDescription(p.tool) : ""),
   images: [{ src: `/images/projects/${p.slug}.jpg`, width: p.width, height: p.height }],
 }));
 
@@ -120,17 +119,18 @@ export function getAdjacentProjects(slug: string): { prev: Project | null; next:
 export const SITE = {
   name: "Júlia Ferreira",
   heroLead:
-    "Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro.",
-  heroSecondary: "Her works range from mural art over digital drawings to brand design.",
+    "5th year design bachelor at PUC-Rio working by mixing graphic design and visual arts. Inspired by nature, society and literature, landscapes, human figure and visual narratives is what I like best about art.",
+  heroSecondary:
+    "This portfolio features analog and digital processes, ranging from mural artwork to pattern design and concept art.",
   about: [
-    "Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro, Brazil. Her works range from mural art over digital drawings to brand design.  Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro, Brazil.",
-    "Her works range from mural art over digital drawings to brand design. Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro, Brazil. Her works range from mural art over digital drawings to brand design.  Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro, Brazil. Her works range from mural art over digital drawings to brand design.  Júlia Ferreira is a experienced and talented illustrator and designer based in Rio de Janeiro, Brazil.",
+    "Born in Salvador, in Brazil, Júlia moved to Rio de Janeiro in 2020 and has lived, studied and worked there ever since. It was through studying design with emphasis in arts and multissensorial communications at PUC-Rio that she's grown into identifying herself as an illustrator, despite having drawn her whole life as a hobby. In the early pandemics months she created the instagram account under the name nor.ophelia that quickly grew its following and made possible for her to work on more than eighty commission artworks since it's creation.",
   ],
   contact: {
     tel: "",
     email: "",
-    instagram: "",
-    linkedin: "",
+    instagram: "https://www.instagram.com/ophelontheshore?igsi=YzA4dTIyaTBzaHVq&utm_source=qr",
+    behance: "https://www.behance.net/jliaferreira28",
+    linkedin: "https://www.linkedin.com/in/j%C3%BAlia-ferreira-262747382/",
     cvUrl: "",
   },
 };

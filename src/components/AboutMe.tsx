@@ -8,6 +8,27 @@ function SmallHeadline({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SocialLink({ label, href, text }: { label: string; href: string; text: string }) {
+  if (!href) {
+    return (
+      <>
+        <p className="mt-2 font-archivo text-[14px] font-medium md:text-[17px]">{label}:</p>
+        <p className="font-archivo text-[14px] font-medium md:text-[17px]"> </p>
+      </>
+    );
+  }
+  return (
+    <>
+      <p className="mt-2 font-archivo text-[14px] font-medium md:text-[17px]">{label}:</p>
+      <p className="font-archivo text-[14px] font-medium underline md:text-[17px]">
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {text}
+        </a>
+      </p>
+    </>
+  );
+}
+
 export default function AboutMe() {
   const { contact } = SITE;
 
@@ -37,29 +58,20 @@ export default function AboutMe() {
                 Tel:
               </p>
               <p className="font-archivo text-[14px] font-medium md:text-[17px]">
-                {contact.tel || " "}
+                {contact.tel || " "}
               </p>
               <p className="mt-1 font-archivo text-[14px] font-medium md:text-[17px]">
                 E-Mail:
               </p>
               <p className="font-archivo text-[14px] font-medium md:text-[17px]">
-                {contact.email || " "}
+                {contact.email || " "}
               </p>
             </div>
             <div>
               <SmallHeadline>Socials</SmallHeadline>
-              <p className="mt-2 font-archivo text-[14px] font-medium md:text-[17px]">
-                Instagram:
-              </p>
-              <p className="font-archivo text-[14px] font-medium md:text-[17px]">
-                {contact.instagram || " "}
-              </p>
-              <p className="mt-1 font-archivo text-[14px] font-medium md:text-[17px]">
-                LinkedIn:
-              </p>
-              <p className="font-archivo text-[14px] font-medium md:text-[17px]">
-                {contact.linkedin || " "}
-              </p>
+              <SocialLink label="Instagram" href={contact.instagram} text="@ophelontheshore" />
+              <SocialLink label="Behance" href={contact.behance} text="jliaferreira28" />
+              <SocialLink label="LinkedIn" href={contact.linkedin} text="júlia ferreira" />
             </div>
             <div>
               <SmallHeadline>CV:</SmallHeadline>
