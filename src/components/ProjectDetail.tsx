@@ -54,7 +54,7 @@ export default function ProjectDetail({ project, prev, next }: Props) {
         onTouchEnd={onTouchEnd}
       >
         {multi ? (
-          <div className="flex h-full flex-col items-center gap-[15px] overflow-y-auto p-0 md:gap-[30px] md:p-[30px]">
+          <div className="flex h-full flex-col items-center gap-[15px] overflow-y-auto pt-14 md:gap-[30px] md:p-[30px]">
             {project.images.map((img, i) => (
               <Image
                 key={i}
@@ -68,7 +68,7 @@ export default function ProjectDetail({ project, prev, next }: Props) {
             ))}
           </div>
         ) : (
-          <div className="flex h-full w-full items-center justify-center p-0 md:p-[30px]">
+          <div className="flex h-full w-full items-center justify-center pt-14 md:p-[30px]">
             <Image
               src={project.images[0].src}
               alt={project.title}
