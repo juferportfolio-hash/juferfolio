@@ -46,7 +46,7 @@ export default function ProjectDetail({ project, prev, next }: Props) {
   const multi = project.images.length > 1;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
+    <div className="flex h-full flex-col overflow-hidden md:flex-row">
       {/* Image area */}
       <div
         className="relative min-h-0 flex-1 overflow-hidden"
@@ -106,7 +106,7 @@ export default function ProjectDetail({ project, prev, next }: Props) {
       </div>
 
       {/* Info panel */}
-      <div className="relative flex shrink-0 flex-col border-t border-gray p-6 md:h-full md:w-[33%] md:border-l md:border-t-0 md:p-10">
+      <div className="relative flex h-[42%] shrink-0 flex-col overflow-y-auto border-t border-gray p-6 md:h-full md:w-[33%] md:border-l md:border-t-0 md:p-10">
         <Link
           href="/#projects"
           aria-label="Close"

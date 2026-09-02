@@ -7,6 +7,7 @@ import { SECTION_X } from "@/lib/ui";
 
 export default function Contact() {
   const [message, setMessage] = useState("");
+  const [waving, setWaving] = useState(false);
 
   function handleSend(e: React.FormEvent) {
     e.preventDefault();
@@ -15,6 +16,15 @@ export default function Contact() {
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
       "Hello from your portfolio site"
     )}&body=${encodeURIComponent(message)}`;
+  }
+
+  function handleWaveClick() {
+    if (waving) return;
+    setWaving(true);
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      navigator.vibrate(200);
+    }
+    window.setTimeout(() => setWaving(false), 400);
   }
 
   return (
@@ -48,7 +58,14 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="w-[160px] shrink-0 self-center md:w-[220px] md:self-end md:pb-14">
+        <button
+          type="button"
+          onClick={handleWaveClick}
+          aria-label="wave hello"
+          className={`w-[160px] shrink-0 self-center md:w-[220px] md:self-end md:pb-14 ${
+            waving ? "animate-vibrate" : ""
+          }`}
+        >
           <Image
             src="/images/illustrations/wave-hand.png"
             alt=""
@@ -57,7 +74,7 @@ export default function Contact() {
             className="h-auto w-full"
             aria-hidden="true"
           />
-        </div>
+        </button>
       </form>
     </section>
   );
