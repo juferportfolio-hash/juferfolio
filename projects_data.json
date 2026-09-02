@@ -1,0 +1,408 @@
+[
+  {
+    "slug": "river-clearing",
+    "title": "Riverside Clearing",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Digital Painting",
+    "date": "2025",
+    "time": "4 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "forest-shrine",
+    "title": "Forest Shrine Path",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2021",
+    "time": "6 hours",
+    "width": 2000,
+    "height": 986,
+    "ratio": 2.0284
+  },
+  {
+    "slug": "library-study",
+    "title": "Late Study Session",
+    "tags": [
+      "concept",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2025",
+    "time": "8 hours",
+    "width": 1765,
+    "height": 2000,
+    "ratio": 0.8825
+  },
+  {
+    "slug": "quiet-bedroom",
+    "title": "Quiet Bedroom",
+    "tags": [
+      "concept",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2021",
+    "time": "5 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "yellow-door",
+    "title": "Yellow Door No. 1",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2022",
+    "time": "3 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "ivy-wall",
+    "title": "Ivy Wall",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Procreate",
+    "date": "2021",
+    "time": "2 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "night-alley",
+    "title": "Night Alley",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "5 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "snow-house",
+    "title": "Snow House",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2021",
+    "time": "6 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "countryside-train",
+    "title": "Countryside Train",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2023",
+    "time": "4 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "station-bench",
+    "title": "Station Bench",
+    "tags": [
+      "concept",
+      "traditional"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2023",
+    "time": "5 hours",
+    "width": 1502,
+    "height": 2000,
+    "ratio": 0.751
+  },
+  {
+    "slug": "vending-machine-street",
+    "title": "Vending Machine Street",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "7 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "still-waters",
+    "title": "Still Waters",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "6 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "hero-duo",
+    "title": "Hero Duo",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "10 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "character-turnaround",
+    "title": "Character Turnaround",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "3 hours",
+    "width": 2000,
+    "height": 1443,
+    "ratio": 1.386
+  },
+  {
+    "slug": "streetlight-friends",
+    "title": "Streetlight Friends",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "9 hours",
+    "width": 2000,
+    "height": 1133,
+    "ratio": 1.7652
+  },
+  {
+    "slug": "red-curtain-dance",
+    "title": "Red Curtain Dance",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "8 hours",
+    "width": 1460,
+    "height": 2000,
+    "ratio": 0.73
+  },
+  {
+    "slug": "formal-portrait",
+    "title": "Formal Portrait",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "2 hours",
+    "width": 1360,
+    "height": 2000,
+    "ratio": 0.68
+  },
+  {
+    "slug": "branch-over-ocean",
+    "title": "Branch Over Ocean",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "5 hours",
+    "width": 2000,
+    "height": 1546,
+    "ratio": 1.2937
+  },
+  {
+    "slug": "split-portrait",
+    "title": "Split Portrait",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "4 hours",
+    "width": 1765,
+    "height": 2000,
+    "ratio": 0.8825
+  },
+  {
+    "slug": "bridge-friends",
+    "title": "Bridge Friends",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "7 hours",
+    "width": 1353,
+    "height": 2000,
+    "ratio": 0.6765
+  },
+  {
+    "slug": "plaid-skirt-character",
+    "title": "Plaid Skirt Character",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "3 hours",
+    "width": 1496,
+    "height": 2000,
+    "ratio": 0.748
+  },
+  {
+    "slug": "crouching-portrait",
+    "title": "Crouching Portrait",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "2 hours",
+    "width": 1687,
+    "height": 2000,
+    "ratio": 0.8435
+  },
+  {
+    "slug": "dock-with-family",
+    "title": "Dock With Family",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "6 hours",
+    "width": 2000,
+    "height": 1321,
+    "ratio": 1.514
+  },
+  {
+    "slug": "forest-vignette",
+    "title": "Forest Vignette",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "4 hours",
+    "width": 1593,
+    "height": 2000,
+    "ratio": 0.7965
+  },
+  {
+    "slug": "orange-scarf-hug",
+    "title": "Orange Scarf Hug",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "3 hours",
+    "width": 1209,
+    "height": 2000,
+    "ratio": 0.6045
+  },
+  {
+    "slug": "cherry-blossom-trio",
+    "title": "Cherry Blossom Trio",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "8 hours",
+    "width": 1692,
+    "height": 2000,
+    "ratio": 0.846
+  },
+  {
+    "slug": "kitchen-couple",
+    "title": "Kitchen Couple",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "4 hours",
+    "width": 2000,
+    "height": 1139,
+    "ratio": 1.7559
+  },
+  {
+    "slug": "sailing-couple",
+    "title": "Sailing Couple",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "6 hours",
+    "width": 2000,
+    "height": 1455,
+    "ratio": 1.3746
+  },
+  {
+    "slug": "laptop-silhouette",
+    "title": "Laptop Silhouette",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "3 hours",
+    "width": 2000,
+    "height": 1539,
+    "ratio": 1.2995
+  }
+]
