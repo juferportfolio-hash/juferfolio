@@ -17,6 +17,14 @@ export default function Header() {
     }
   }
 
+  function handleNavClick(e: React.MouseEvent, id: string) {
+    setOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   return (
     <header className="flex h-[72px] shrink-0 items-center justify-between px-5 md:h-[92px] md:px-[30px]">
       <Link
@@ -31,6 +39,7 @@ export default function Header() {
       <nav className="hidden items-center gap-10 md:flex">
         <Link
           href="/#projects"
+          onClick={(e) => handleNavClick(e, "projects")}
           className="hover-roman font-caslon text-[20px] font-bold"
         >
           {onProject ? (
@@ -45,6 +54,7 @@ export default function Header() {
         </Link>
         <Link
           href="/#about-me"
+          onClick={(e) => handleNavClick(e, "about-me")}
           className="hover-roman font-caslon text-[20px] font-bold"
         >
           about me
@@ -71,14 +81,14 @@ export default function Header() {
         <nav className="fixed left-3 right-3 top-[84px] bottom-3 z-20 flex flex-col gap-2 bg-bg px-5 py-8 md:hidden">
           <Link
             href="/#projects"
-            onClick={() => setOpen(false)}
+            onClick={(e) => handleNavClick(e, "projects")}
             className="hover-roman font-caslon py-2 text-[16px] font-bold"
           >
             projects
           </Link>
           <Link
             href="/#about-me"
-            onClick={() => setOpen(false)}
+            onClick={(e) => handleNavClick(e, "about-me")}
             className="hover-roman font-caslon py-2 text-[16px] font-bold"
           >
             about me
