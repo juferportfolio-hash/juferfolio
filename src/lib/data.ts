@@ -1,5 +1,5 @@
 // Hard cap on images per project (enforced by the admin section's upload actions).
-export const MAX_IMAGES_PER_PROJECT = 20;
+export const MAX_IMAGES_PER_PROJECT = 60;
 
 export type TagId =
   | "digital"

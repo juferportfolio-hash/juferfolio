@@ -100,6 +100,9 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
   const cursorDirRef = useRef<"left" | "right" | null>(null);
   const [cursorDir, setCursorDir] = useState<"left" | "right" | null>(null);
   const overCloseRef = useRef(false);
+  // The multi-image list's own scrollable element — see the wheel-forwarding
+  // effect below for why this needs a direct handle to it.
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Reset instantly on every project change. This is the React-endorsed
   // "adjust state during render when a prop changes" pattern (comparing
@@ -233,6 +236,20 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
     };
   }, [router]);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    function handleWheel(e: WheelEvent) {
+      const list = listRef.current;
+      if (!list) return;
+      list.scrollTop += e.deltaY;
+    }
+
+    el.addEventListener("wheel", handleWheel, { passive: true });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
+
   // Desktop-only: follows the mouse with an inverted-color arrow instead of
   // a native OS cursor icon (a static bitmap can't sample the pixels beneath
   // it — see .cursor-invert in globals.css for why this has to be a real
@@ -342,7 +359,10 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
 
         <div className="h-full w-full shrink-0">
           {multi ? (
-            <div className="flex h-full flex-col items-center gap-[15px] overflow-y-auto px-[10px] pt-14 md:gap-[30px] md:p-[30px]">
+            <div
+              ref={listRef}
+              className="flex h-full flex-col items-center gap-[15px] overflow-y-auto px-[10px] pt-14 md:gap-[30px] md:p-[30px]"
+            >
               {project.images.map((img, i) => (
                 <Image
                   key={i}

@@ -658,5 +658,40 @@
       }
     ],
     "active": true
+  },
+  {
+    "slug": "powerguido",
+    "title": "Powerguido",
+    "tags": [
+      "traditional",
+      "comission"
+    ],
+    "tool": "suno ai",
+    "date": "2025",
+    "time": "100 hours",
+    "description": "🎬 POWERGUIDO – THE RETURN OF THE POWERGUIDO\r\n\r\nPÃO. GUIDO. BRASILIEN.\r\n\r\nNachdem Pão zu lange irgendwo in Brasilien herumstand und Guido eigentlich nur kurz wissen wollte, was los ist, passiert das Unvermeidbare: POWERGUIDO ist zurück.\r\n\r\nGemeinsam mit Finn und Billy reist Guido nach Brasilien, um die legendäre Pão-Energie zu finden. Doch niemand weiß genau, was Pão eigentlich ist. Manche sagen Brot. Manche sagen Macht. Manche sagen einfach „Pão“ und hoffen, dass es funktioniert.\r\n\r\nAuf ihrer Reise begegnen die drei gefährlichen Brasilianern, noch gefährlicheren Entscheidungen und einer Statue, die verdächtig viel über Guido zu wissen scheint.\r\n\r\nWährend Finn versucht, irgendwie normal zu bleiben, Billy komplett die Kontrolle über sein Gesicht verliert und Guido langsam versteht, dass Pão vielleicht schon die ganze Zeit in ihm war, beginnt eine Suche nach Antworten, die eigentlich niemand gefragt hat.\r\n\r\n🌴 Ein Film über Freundschaft.\r\n🥖 Ein Film über Pão.\r\n💪 Ein Film über Power.\r\n🇧🇷 Ein Film, der in Brasilien spielt, weil das halt irgendwie lustig ist.\r\n\r\nPOWERGUIDO – THE RETURN OF THE POWERGUIDO\r\n\r\n„Pão não é pão. Pão é poder.“\r\n„Guido.“\r\n„Pão.“\r\n„Powerguido.“",
+    "images": [
+      {
+        "src": "/images/projects/powerguido/1.jpg",
+        "width": 1200,
+        "height": 1500
+      },
+      {
+        "src": "/images/projects/powerguido/0.jpg",
+        "width": 3000,
+        "height": 1700
+      },
+      {
+        "src": "/images/projects/powerguido/2.png",
+        "width": 3600,
+        "height": 2040
+      },
+      {
+        "src": "/images/projects/powerguido/3.jpg",
+        "width": 4096,
+        "height": 2321
+      }
+    ],
+    "active": true
   }
 ]
