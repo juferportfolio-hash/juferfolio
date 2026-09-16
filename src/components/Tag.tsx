@@ -27,6 +27,7 @@ interface TagProps {
   active?: boolean;
   onClick?: () => void;
   as?: "button" | "span";
+  size?: "default" | "sm";
 }
 
 export default function Tag({
@@ -36,6 +37,7 @@ export default function Tag({
   active = false,
   onClick,
   as = "span",
+  size = "default",
 }: TagProps) {
   const color = TAG_COLORS[id];
   const filled = variant === "filled" || active;
@@ -48,7 +50,10 @@ export default function Tag({
         "--tag-hover-bg": hexToRgba(color, 0.12),
       } as React.CSSProperties);
 
-  const className = `inline-flex items-center border px-[18px] py-[8px] font-archivo text-[16px] font-medium leading-none transition-colors md:text-[18px] ${
+  const sizeClass =
+    size === "sm" ? "px-[10px] py-[4px] text-[12px]" : "px-[18px] py-[8px] text-[16px] md:text-[18px]";
+
+  const className = `inline-flex items-center border font-archivo font-medium leading-none transition-colors ${sizeClass} ${
     filled ? "" : "tag-hoverable"
   }`;
 

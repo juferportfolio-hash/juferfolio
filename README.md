@@ -3,9 +3,9 @@
 A pixel-fidelity implementation of the Figma design for Júlia Ferreira's illustration
 portfolio, built with Next.js (App Router), TypeScript, and Tailwind CSS v4.
 
-This first deliverable is the **public-facing site only** — pixel-matched to Figma on
-both desktop and mobile. The admin login and content-editing backend is a separate,
-follow-up phase (see "Next phase" below).
+Pixel-matched to Figma on both desktop and mobile, plus a password-protected
+`/admin` section (see "Admin section" below) so the site owner can add/edit/remove
+projects and site copy without touching code.
 
 ## Getting started
 
@@ -77,9 +77,13 @@ scattered magic numbers:
   persistent Frame/Header layout, opening a project never re-mounts the frame — it
   only swaps the content beneath it, which is what gives the sticky-window feel
   without any actual modal/overlay machinery.
-- `src/lib/data.ts` — every project's title/tags/date/time/tool/description/images in
-  one typed array, plus the hero/about/contact copy. This is the file to hand to a
-  future CMS/admin — it's already shaped as the data layer.
+- `src/lib/data.ts` — shared types only (`Project`, `Site`, `TAGS`, ...). No content
+  lives here anymore.
+- `data/projects.json` / `data/site.json` — the actual project list and site copy,
+  read/written by `src/lib/store.ts` (server-only). This is what `/admin` edits.
+- `src/app/admin/` + `src/components/admin/` — the admin section: login, dashboard,
+  project create/edit forms, image manager, site-text editor. See "Admin section"
+  below.
 - `src/lib/masonry.ts` — a small greedy "shortest column next" placement function.
   Plain CSS `columns` fills one column completely before starting the next (so the
   grid doesn't read left-to-right); this keeps the reading order sane the way the
@@ -98,12 +102,9 @@ scattered magic numbers:
   directly from your Figma file at high resolution
   (`public/images/illustrations/`).
 - **About-me photo**: also pulled from the Figma file.
-- **Contact details** (phone / email / Instagram / LinkedIn / CV link) are still
-  empty placeholders in `src/lib/data.ts` (`SITE.contact`) — fill those in whenever
-  you have them.
-- **About-me paragraphs**: currently the same repeated placeholder copy shown in the
-  Figma mockup. Swap in Júlia's real bio in `SITE.about` (`src/lib/data.ts`) whenever
-  it's ready.
+- **Contact details** (phone / email / Instagram / LinkedIn / CV link) and the
+  **about-me paragraphs** now live in `data/site.json` and are editable from
+  `/admin/site` — no code changes needed.
 
 ## Interactions implemented
 
@@ -111,24 +112,63 @@ scattered magic numbers:
 - Project detail "popup": 2/3 image + 1/3 sticky info panel on desktop; centered
   image + info below on mobile.
 - Multi-image projects scroll vertically inside the image column with the next image
-  already peeking into view (component supports this today — none of the current 29
-  pieces use more than one image yet, but adding a second `images` entry to any
-  project in `src/lib/data.ts` turns it on).
-- Desktop: left/right halves of the image act as invisible prev/next click zones,
-  with `w-resize` / `e-resize` cursors.
-- Mobile: swipe left/right to move between projects, plus a brief left/right arrow
-  hint that fades in and out on first view of a project.
+  already peeking into view. Add more entries to a project's `images` array (from
+  `/admin`, no code needed) to turn this on for any project.
+- Desktop: left/right halves of the image act as invisible prev/next click zones, with
+  an explicit left/right arrow cursor (not the ambiguous `w-resize`/`e-resize`) so the
+  direction always matches which half of the frame you're over.
+- Mobile: `src/components/ProjectImageSwiper.tsx` drives the image frame — dragging
+  follows your finger 1:1 (with the previous/next project's cover peeking in from the
+  side you're dragging toward), releasing past ~22% of the frame's width commits to
+  that neighbor and snaps the rest of the way before navigating, otherwise it springs
+  back. On open it also runs a brief automatic nudge toward whichever neighbors exist,
+  as a one-time hint. The description panel underneath is untouched by any of this —
+  it still just swaps instantly on navigation.
+- The close ("×") button lives in the image frame's top-right corner (not the
+  description panel) on both breakpoints.
 
-## Next phase (not built yet)
+## Admin section
 
-Admin login + editable text/images. Recommended approach when you're ready:
+Visit `/admin` and sign in with the password in `.env.local` (`ADMIN_PASSWORD` — an
+initial one was generated for you; change it any time, it's just a plain env var).
 
-1. A database (Postgres via Vercel Postgres, Supabase, or Neon all work well with
-   Next.js) to hold what's currently the static array in `src/lib/data.ts`.
-2. Object storage for uploaded images (Vercel Blob, S3, or Cloudinary) — a plain
-   `public/` folder doesn't survive re-deploys/serverless the way it does here in
-   development.
-3. Simple credential-based auth (NextAuth.js Credentials provider, or Vercel/Clerk
-   auth) gating a `/admin` route with forms that write to that database.
+From there you can:
 
-Happy to build that next whenever you're ready — just say the word.
+- **Add a project** (`/admin/projects/new`) — title, tags, date, time period, tool,
+  description, a required main/cover image, and up to 19 additional images.
+- **Edit a project** (`/admin/projects/[slug]/edit`) — edit all text fields, add more
+  images (up to 20 total), remove individual images, reorder them with ↑/↓ (the first
+  image is always the one docked at the top of the project page, the rest stack below
+  it, exactly like the current mural-painting project), toggle "visible on the live
+  site", or delete the project entirely (also deletes its image files).
+- **Set a project active/inactive** from the dashboard list without opening it — an
+  inactive project is kept in the admin list but hidden from the public site (grid,
+  prev/next navigation, and its own `/projects/[slug]` page all 404 it).
+- **Edit site texts** (`/admin/site`) — hero text, about-me paragraphs, and contact
+  links, all previously hardcoded in `src/lib/data.ts`.
+
+Auth is a signed, httpOnly session cookie (`src/lib/auth.ts`) — no third-party auth
+dependency. Every mutation goes through a Next.js Server Action in
+`src/app/admin/actions.ts`, each of which re-checks the session server-side, so the
+data can't be edited by POSTing to an action without a valid cookie even if someone
+finds the URL.
+
+### How content is stored (and why this matters for deployment)
+
+Projects and site text live in `data/projects.json` / `data/site.json`; uploaded
+images are written straight to `public/images/projects/<slug>/`. Both are read and
+written with plain Node `fs` calls (`src/lib/store.ts`), and the homepage/project
+pages are rendered dynamically (`export const dynamic = "force-dynamic"`) so admin
+edits show up immediately with no rebuild.
+
+This works well for **any host with a persistent, writable filesystem** — a VPS, a
+Docker container with a mounted volume, a Mac mini/home server running `npm run
+build && npm start`, etc. It will **not** work on serverless/edge hosts with a
+read-only or ephemeral filesystem (Vercel's production runtime is the common example
+— uploads and edits would appear to save and then vanish on the next cold start,
+since there's no persistent disk and no CDN invalidation for `public/`). If you end up
+hosting there, the migration path is exactly what was originally sketched here: move
+`data/*.json` into a real database (Vercel Postgres/Supabase/Neon) and uploaded images
+into object storage (Vercel Blob/S3/Cloudinary) — `src/lib/store.ts` is the one file
+that would need to change; nothing in the admin UI or the public pages talks to the
+filesystem directly.

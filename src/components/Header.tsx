@@ -82,14 +82,14 @@ export default function Header() {
           <Link
             href="/#projects"
             onClick={(e) => handleNavClick(e, "projects")}
-            className="hover-roman font-caslon py-2 text-[16px] font-bold"
+            className="hover-roman font-caslon py-2 text-[25px] font-bold"
           >
             projects
           </Link>
           <Link
             href="/#about-me"
             onClick={(e) => handleNavClick(e, "about-me")}
-            className="hover-roman font-caslon py-2 text-[16px] font-bold"
+            className="hover-roman font-caslon py-2 text-[25px] font-bold"
           >
             about me
           </Link>

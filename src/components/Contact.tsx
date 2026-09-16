@@ -2,17 +2,17 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { SITE } from "@/lib/data";
+import type { Site } from "@/lib/data";
 import { SECTION_X } from "@/lib/ui";
 
-export default function Contact() {
+export default function Contact({ site }: { site: Site }) {
   const [message, setMessage] = useState("");
   const [waving, setWaving] = useState(false);
 
   function handleSend(e: React.FormEvent) {
     e.preventDefault();
     if (!message.trim()) return;
-    const email = SITE.contact.email || "";
+    const email = site.contact.email || "";
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
       "Hello from your portfolio site"
     )}&body=${encodeURIComponent(message)}`;
@@ -29,7 +29,7 @@ export default function Contact() {
 
   return (
     <section className={`py-10 md:py-16 ${SECTION_X}`}>
-      <h2 className="hover-roman font-caslon text-[30px] font-bold md:text-[40px]">
+      <h2 className="hover-roman inline-block font-caslon text-[30px] font-bold md:text-[40px]">
         say hello :)
       </h2>
 

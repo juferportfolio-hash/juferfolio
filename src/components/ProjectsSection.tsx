@@ -1,19 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PROJECTS, TAGS, type TagId } from "@/lib/data";
+import { TAGS, type Project, type TagId } from "@/lib/data";
 import Tag from "@/components/Tag";
 import ProjectCard from "@/components/ProjectCard";
 import { SECTION_X } from "@/lib/ui";
 import { distributeColumns } from "@/lib/masonry";
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<Set<TagId>>(new Set());
 
   const filtered = useMemo(() => {
-    if (active.size === 0) return PROJECTS;
-    return PROJECTS.filter((p) => p.tags.some((t) => active.has(t)));
-  }, [active]);
+    if (active.size === 0) return projects;
+    return projects.filter((p) => p.tags.some((t) => active.has(t)));
+  }, [active, projects]);
 
   const mobileColumns = useMemo(() => distributeColumns(filtered, 2), [filtered]);
   const desktopColumns = useMemo(() => distributeColumns(filtered, 3), [filtered]);
@@ -30,7 +30,7 @@ export default function ProjectsSection() {
   return (
     <section id="projects" className="border-b border-gray py-10 md:py-16">
       <div className={SECTION_X}>
-        <h2 className="hover-roman font-caslon text-[30px] font-bold md:text-[40px]">
+        <h2 className="hover-roman inline-block font-caslon text-[30px] font-bold md:text-[40px]">
           projects
         </h2>
 

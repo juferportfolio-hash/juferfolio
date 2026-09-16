@@ -1,0 +1,662 @@
+[
+  {
+    "slug": "river-clearing",
+    "title": "Riverside Clearing",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Digital Painting",
+    "date": "2025",
+    "time": "4 hours",
+    "description": "A quiet clearing where a stream cuts through tall grass, painted as a study in light and reflection.",
+    "images": [
+      {
+        "src": "/images/projects/river-clearing.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "forest-shrine",
+    "title": "Forest Shrine Path",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2021",
+    "time": "6 hours",
+    "description": "A traveler rests beside a weathered torii gate on the edge of the woods.",
+    "images": [
+      {
+        "src": "/images/projects/forest-shrine.jpg",
+        "width": 2000,
+        "height": 986
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "library-study",
+    "title": "Late Study Session",
+    "tags": [
+      "concept",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2025",
+    "time": "8 hours",
+    "description": "Three students share a table in the library, heads bent low over the evening's reading.",
+    "images": [
+      {
+        "src": "/images/projects/library-study.jpg",
+        "width": 1765,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "quiet-bedroom",
+    "title": "Quiet Bedroom",
+    "tags": [
+      "concept",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2021",
+    "time": "5 hours",
+    "description": "Early morning light slips through the blinds of a sleeper's room.",
+    "images": [
+      {
+        "src": "/images/projects/quiet-bedroom.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "yellow-door",
+    "title": "Yellow Door No. 1",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2022",
+    "time": "3 hours",
+    "description": "Sunlight and shadow play across the yellow door of a quiet house.",
+    "images": [
+      {
+        "src": "/images/projects/yellow-door.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "ivy-wall",
+    "title": "Ivy Wall",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Procreate",
+    "date": "2021",
+    "time": "2 hours",
+    "description": "Ivy climbs a sunlit courtyard wall, framed in soft midday light.",
+    "images": [
+      {
+        "src": "/images/projects/ivy-wall.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "night-alley",
+    "title": "Night Alley",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "5 hours",
+    "description": "A figure walks home through a narrow, lantern-lit alley at night.",
+    "images": [
+      {
+        "src": "/images/projects/night-alley.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "snow-house",
+    "title": "Snow House",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2021",
+    "time": "6 hours",
+    "description": "Snow settles on the eaves of a small house as its windows glow warm against the cold.",
+    "images": [
+      {
+        "src": "/images/projects/snow-house.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "countryside-train",
+    "title": "Countryside Train",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2023",
+    "time": "4 hours",
+    "description": "A local train winds along power lines through open countryside.",
+    "images": [
+      {
+        "src": "/images/projects/countryside-train.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "station-bench",
+    "title": "Station Bench",
+    "tags": [
+      "concept",
+      "traditional"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2023",
+    "time": "5 hours",
+    "description": "An old wooden bench waits in the quiet hall of a traditional train station.",
+    "images": [
+      {
+        "src": "/images/projects/station-bench.jpg",
+        "width": 1502,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "vending-machine-street",
+    "title": "Vending Machine Street",
+    "tags": [
+      "concept",
+      "landscape"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "7 hours",
+    "description": "A backstreet corner with a glowing vending machine, painted in the last light of evening.",
+    "images": [
+      {
+        "src": "/images/projects/vending-machine-street.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "still-waters",
+    "title": "Still Waters",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "6 hours",
+    "description": "Created with Clip Studio Paint and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/still-waters.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "hero-duo",
+    "title": "Hero Duo",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "10 hours",
+    "description": "Created with Clip Studio Paint and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/hero-duo.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "character-turnaround",
+    "title": "Character Turnaround",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "3 hours",
+    "description": "Created with Clip Studio Paint and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/character-turnaround.jpg",
+        "width": 2000,
+        "height": 1443
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "streetlight-friends",
+    "title": "Streetlight Friends",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "9 hours",
+    "description": "Created with Clip Studio Paint and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/streetlight-friends.jpg",
+        "width": 2000,
+        "height": 1133
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "red-curtain-dance",
+    "title": "Red Curtain Dance",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Clip Studio Paint",
+    "date": "2026",
+    "time": "8 hours",
+    "description": "Created with Clip Studio Paint and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/red-curtain-dance.jpg",
+        "width": 1460,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "formal-portrait",
+    "title": "Formal Portrait",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "2 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/formal-portrait.jpg",
+        "width": 1360,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "branch-over-ocean",
+    "title": "Branch Over Ocean",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "5 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/branch-over-ocean.jpg",
+        "width": 2000,
+        "height": 1546
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "split-portrait",
+    "title": "Split Portrait",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "4 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/split-portrait.jpg",
+        "width": 1765,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "bridge-friends",
+    "title": "Bridge Friends",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "7 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/bridge-friends.jpg",
+        "width": 1353,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "plaid-skirt-character",
+    "title": "Plaid Skirt Character",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "3 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/plaid-skirt-character.jpg",
+        "width": 1496,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "crouching-portrait",
+    "title": "Crouching Portrait",
+    "tags": [
+      "comission",
+      "sketch"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "2 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/crouching-portrait.jpg",
+        "width": 1687,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "dock-with-family",
+    "title": "Dock With Family",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "6 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/dock-with-family.jpg",
+        "width": 2000,
+        "height": 1321
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "forest-vignette",
+    "title": "Forest Vignette",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "4 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/forest-vignette.jpg",
+        "width": 1593,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "orange-scarf-hug",
+    "title": "Orange Scarf Hug",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2025",
+    "time": "3 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/orange-scarf-hug.jpg",
+        "width": 1209,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "cherry-blossom-trio",
+    "title": "Cherry Blossom Trio",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "8 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/cherry-blossom-trio.jpg",
+        "width": 1692,
+        "height": 2000
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "kitchen-couple",
+    "title": "Kitchen Couple",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "4 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/kitchen-couple.jpg",
+        "width": 2000,
+        "height": 1139
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "sailing-couple",
+    "title": "Sailing Couple",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "6 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/sailing-couple.jpg",
+        "width": 2000,
+        "height": 1455
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "laptop-silhouette",
+    "title": "Laptop Silhouette",
+    "tags": [
+      "comission",
+      "digital"
+    ],
+    "tool": "Procreate",
+    "date": "2026",
+    "time": "3 hours",
+    "description": "Created with Procreate and commissioned by a customer via Instagram page @nor.ophelia. Some of the characters portrayed in the artwork are owned by authors of the respective source inspiration animation and/or media.",
+    "images": [
+      {
+        "src": "/images/projects/laptop-silhouette.jpg",
+        "width": 2000,
+        "height": 1539
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "spring-in-the-floating-world",
+    "title": "Spring in the Floating World",
+    "tags": [
+      "traditional",
+      "concept"
+    ],
+    "tool": "",
+    "date": "2025",
+    "time": "3 months",
+    "description": "Crafted during my second semester of a year-long academic exchange in Darmstadt, Germany, Spring in the Floating World is the first illustrated book I had the opportunity to work on. It's idea was created amidst the weekly encounters of the course Entwurf III/IV by Sabine Zimmermann at the Hochschule Darmstadt's Design Faculty. The course had the theme \"geist\", or \"ghost\", as a starting point, which I've decided to portray as memories displayed through the observation and painting of daily life landscapes and fragments.",
+    "images": [
+      {
+        "src": "/images/projects/spring-in-the-floating-world.jpg",
+        "width": 1525,
+        "height": 965
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "mural-painting",
+    "title": "Mural painting",
+    "tags": [
+      "traditional",
+      "comission"
+    ],
+    "tool": "",
+    "date": "2026",
+    "time": "20 hours",
+    "description": "Inspired by the university's setting and the fostering of education and innovation, this mural painting was commissioned by Pontifícia Universidade Católica to ornate the wall of PIUES's office. Work with the collaboration of the visual artists Pedro Padilha and Mateu Velasco.",
+    "images": [
+      {
+        "src": "/images/projects/mural-painting.jpg",
+        "width": 2000,
+        "height": 1334
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "daad-illustrations",
+    "title": "Illustrations for social media",
+    "tags": [
+      "digital",
+      "concept"
+    ],
+    "tool": "",
+    "date": "2026",
+    "time": "-",
+    "description": "Following my one year stay in Germany, of which's first five months were supported by DAAD's STIBET grant, I had the opportunity to join the DAAD Brasil team at its regional office in Rio de Janeiro as an intern working with communication and design. Creating illustrations for DAAD Brasil's pages on social media was part of my job, amongst other daily tasks that allowed me to explore design and art through image and text juxtaposition.",
+    "images": [
+      {
+        "src": "/images/projects/daad-illustrations.jpg",
+        "width": 2000,
+        "height": 1125
+      }
+    ],
+    "active": true
+  },
+  {
+    "slug": "pattern-design",
+    "title": "Pattern design",
+    "tags": [
+      "digital",
+      "comission"
+    ],
+    "tool": "",
+    "date": "2026",
+    "time": "20 hours",
+    "description": "This pattern design was created in collaboration with the textile designer Patrícia Bomeny and commissioned by Shopping Leblon and Lenny Niemeyer's collaborative campaign in celebration of their 30 and 35 year anniversary respectively. Besides its application on fabric for clothing, the pattern was later used to ornate Shopping Leblon's 275sqm glass front and inspire Lenny Niemeyer's store display painting, also created by Patrícia and I.",
+    "images": [
+      {
+        "src": "/images/projects/pattern-design.jpg",
+        "width": 1618,
+        "height": 2000
+      }
+    ],
+    "active": true
+  }
+]
