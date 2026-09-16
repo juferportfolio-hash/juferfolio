@@ -15,8 +15,8 @@ export default function ProjectDetail({ project, prev, next }: Props) {
       <ProjectImageSwiper project={project} prev={prev} next={next} />
 
       {/* Info panel — unchanged, no animation/drag of its own */}
-      <div className="relative flex h-[42%] shrink-0 flex-col overflow-y-auto border-t border-gray p-6 md:h-full md:w-[33%] md:border-l md:border-t-0 md:p-10">
-        <div className="mt-auto">
+      <div className="relative flex h-[42%] shrink-0 flex-col overflow-y-auto border-t border-gray px-6 pb-6 pt-4 md:h-full md:w-[33%] md:border-l md:border-t-0 md:p-10">
+        <div className="md:mt-auto">
           <div className="grid grid-cols-3 gap-4">
             <div>
               <p className="font-archivo text-[14px] font-light text-gray">Date</p>

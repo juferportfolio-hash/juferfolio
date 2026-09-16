@@ -13,8 +13,11 @@ interface Props {
 }
 
 const SWIPE_THRESHOLD_RATIO = 0.22; // fraction of the frame's width that counts as "committed"
-const SNAP_MS = 220;
+const SNAP_MS = 220; // drag-commit / snap-back transition
+const NUDGE_MS = 160; // on-open hint nudge — quicker and smoother than a commit snap
+const NUDGE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const HINT_PEEK_PX = 40;
+const IMAGE_SHADOW = "shadow-[0_8px_30px_rgba(0,0,0,0.05)]"; // very light, subtle
 
 // Module-scope, not React state: this needs to survive the swiper actually
 // remounting on every navigation (Next re-renders the whole page subtree per
@@ -59,7 +62,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [offset, setOffset] = useState(0);
-  const [animated, setAnimated] = useState(false);
+  const [transition, setTransition] = useState("none");
 
   const prevRef = useRef(prev);
   const nextRef = useRef(next);
@@ -81,7 +84,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
   const [trackedSlug, setTrackedSlug] = useState(project.slug);
   if (trackedSlug !== project.slug) {
     setTrackedSlug(project.slug);
-    setAnimated(false);
+    setTransition("none");
     setOffset(0);
   }
 
@@ -105,16 +108,16 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
 
     let cancelled = false;
     const timers: number[] = [];
-    let t = 300;
+    let t = 180;
     const step = (value: number) => {
       timers.push(
         window.setTimeout(() => {
           if (cancelled) return;
-          setAnimated(true);
+          setTransition(`transform ${NUDGE_MS}ms ${NUDGE_EASE}`);
           setOffset(value);
         }, t)
       );
-      t += 260;
+      t += 150;
     };
 
     if (nextRef.current) step(-HINT_PEEK_PX);
@@ -140,7 +143,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
       axisLocked.current = null;
       startX.current = e.touches[0].clientX;
       startY.current = e.touches[0].clientY;
-      setAnimated(false);
+      setTransition("none");
     }
 
     function handleMove(e: TouchEvent) {
@@ -177,7 +180,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
           const slug = nextRef.current.slug;
           navigating.current = true;
           markInternalNavigation();
-          setAnimated(true);
+          setTransition(`transform ${SNAP_MS}ms ease-out`);
           window.setTimeout(() => router.push(`/projects/${slug}`), SNAP_MS);
           return -width;
         }
@@ -185,11 +188,11 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
           const slug = prevRef.current.slug;
           navigating.current = true;
           markInternalNavigation();
-          setAnimated(true);
+          setTransition(`transform ${SNAP_MS}ms ease-out`);
           window.setTimeout(() => router.push(`/projects/${slug}`), SNAP_MS);
           return width;
         }
-        setAnimated(true);
+        setTransition(`transform ${SNAP_MS}ms ease-out`);
         return 0;
       });
     }
@@ -225,7 +228,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
         className="flex h-full w-full"
         style={{
           transform: `translateX(calc(-100% + ${offset}px))`,
-          transition: animated ? `transform ${SNAP_MS}ms ease-out` : "none",
+          transition,
         }}
       >
         <div className="h-full w-full shrink-0">{prev && <CoverSlide project={prev} />}</div>
@@ -240,7 +243,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
                   alt={`${project.title} — image ${i + 1}`}
                   width={img.width}
                   height={img.height}
-                  className="w-full flex-shrink-0 object-contain md:h-auto md:w-auto md:max-h-full md:max-w-full"
+                  className={`w-full flex-shrink-0 object-contain md:h-auto md:w-auto md:max-h-full md:max-w-full ${IMAGE_SHADOW}`}
                   priority={i === 0}
                 />
               ))}
@@ -252,7 +255,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
                 alt={project.title}
                 width={project.images[0].width}
                 height={project.images[0].height}
-                className="max-h-full max-w-full object-contain"
+                className={`max-h-full max-w-full object-contain ${IMAGE_SHADOW}`}
                 priority
               />
             </div>
@@ -301,7 +304,7 @@ function CoverSlide({ project }: { project: Project }) {
         alt={project.title}
         width={cover.width}
         height={cover.height}
-        className="max-h-full max-w-full object-contain opacity-90"
+        className={`max-h-full max-w-full object-contain opacity-90 ${IMAGE_SHADOW}`}
       />
     </div>
   );

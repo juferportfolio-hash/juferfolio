@@ -67,7 +67,7 @@ export default function AboutMe({ site }: { site: Site }) {
               <p className="font-archivo text-[14px] font-medium md:text-[17px]">
                 {contact.tel || " "}
               </p>
-              <p className="mt-1 font-archivo text-[14px] font-medium md:text-[17px]">
+              <p className="mt-2 font-archivo text-[14px] font-medium md:text-[17px]">
                 E-Mail:
               </p>
               <p className="font-archivo text-[14px] font-medium md:text-[17px]">
