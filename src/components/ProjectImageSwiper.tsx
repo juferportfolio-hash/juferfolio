@@ -14,10 +14,18 @@ interface Props {
 
 const SWIPE_THRESHOLD_RATIO = 0.22; // fraction of the frame's width that counts as "committed"
 const SNAP_MS = 220; // drag-commit / snap-back transition
-const NUDGE_MS = 160; // on-open hint nudge — quicker and smoother than a commit snap
+// The on-open hint nudge: a shorter travel distance (rather than a shorter
+// duration) is what keeps it feeling brief — a fast/short-duration slide
+// over a full-size peek reads as a glitch on mobile, while a slower glide
+// over a smaller distance still finishes quickly and looks deliberate.
+const NUDGE_MS = 320;
 const NUDGE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const HINT_PEEK_PX = 40;
-const IMAGE_SHADOW = "shadow-[0_8px_30px_rgba(0,0,0,0.05)]"; // very light, subtle
+const NUDGE_PEEK_PX = 22;
+// filter: drop-shadow (see .image-shadow in globals.css) rather than a
+// Tailwind box-shadow class — these images are object-contain inside a
+// frame that can be taller/wider than the picture itself, and box-shadow
+// would trace that frame instead of the actual visible image.
+const IMAGE_SHADOW = "image-shadow";
 
 // Module-scope, not React state: this needs to survive the swiper actually
 // remounting on every navigation (Next re-renders the whole page subtree per
@@ -30,6 +38,13 @@ const IMAGE_SHADOW = "shadow-[0_8px_30px_rgba(0,0,0,0.05)]"; // very light, subt
 // leaves it unset, so the nudge plays.
 let skipNextMountNudge = false;
 let skipNextMountNudgeTimer: ReturnType<typeof setTimeout> | null = null;
+
+// Raw viewport coordinates from the most recent mousemove, kept across
+// remounts for the same reason skipNextMountNudge is module-scoped: this
+// component's instance doesn't survive a prev/next navigation, but the
+// user's mouse hasn't actually moved, so there's no new event to tell the
+// next instance where the cursor is.
+let lastClientPos: { x: number; y: number } | null = null;
 
 // Marks the *next* mount as internal navigation, then un-marks it shortly
 // after. The un-mark is deliberately on a timer rather than "clear it the
@@ -77,6 +92,15 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
   const axisLocked = useRef<"x" | "y" | null>(null);
   const navigating = useRef(false);
 
+  // Desktop prev/next cursor: position is pushed straight to the DOM via
+  // this ref (not React state) since mousemove fires far too often for a
+  // state-driven re-render every event; only the arrow's direction, which
+  // changes rarely, goes through state.
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorDirRef = useRef<"left" | "right" | null>(null);
+  const [cursorDir, setCursorDir] = useState<"left" | "right" | null>(null);
+  const overCloseRef = useRef(false);
+
   // Reset instantly on every project change. This is the React-endorsed
   // "adjust state during render when a prop changes" pattern (comparing
   // against a bit of state that tracks the previous slug) rather than a
@@ -108,7 +132,7 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
 
     let cancelled = false;
     const timers: number[] = [];
-    let t = 180;
+    let t = 250;
     const step = (value: number) => {
       timers.push(
         window.setTimeout(() => {
@@ -117,12 +141,12 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
           setOffset(value);
         }, t)
       );
-      t += 150;
+      t += NUDGE_MS + 80;
     };
 
-    if (nextRef.current) step(-HINT_PEEK_PX);
+    if (nextRef.current) step(-NUDGE_PEEK_PX);
     step(0);
-    if (prevRef.current) step(HINT_PEEK_PX);
+    if (prevRef.current) step(NUDGE_PEEK_PX);
     if (prevRef.current) step(0);
 
     return () => {
@@ -209,6 +233,79 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
     };
   }, [router]);
 
+  // Desktop-only: follows the mouse with an inverted-color arrow instead of
+  // a native OS cursor icon (a static bitmap can't sample the pixels beneath
+  // it — see .cursor-invert in globals.css for why this has to be a real
+  // element). Attached once per mount, same as the touch listeners; prev/next
+  // are read from the refs kept in sync above so this doesn't need to
+  // re-attach when they change.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (typeof window === "undefined" || window.innerWidth < 768) return;
+
+    function updateAt(clientX: number, clientY: number) {
+      const cursorEl = cursorRef.current;
+      if (!el || !cursorEl) return;
+
+      // Hovering the close button: its own default pointer cursor already
+      // signals "clickable" — the nav arrow would just sit on top of it.
+      if (overCloseRef.current) {
+        cursorEl.style.opacity = "0";
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const dir: "left" | "right" = x < rect.width / 2 ? "left" : "right";
+      const active = dir === "left" ? prevRef.current : nextRef.current;
+
+      if (!active) {
+        cursorEl.style.opacity = "0";
+        return;
+      }
+      cursorEl.style.opacity = "1";
+      cursorEl.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      if (cursorDirRef.current !== dir) {
+        cursorDirRef.current = dir;
+        setCursorDir(dir);
+      }
+    }
+
+    function handleMove(e: MouseEvent) {
+      lastClientPos = { x: e.clientX, y: e.clientY };
+      updateAt(e.clientX, e.clientY);
+    }
+
+    function handleLeave() {
+      if (cursorRef.current) cursorRef.current.style.opacity = "0";
+    }
+
+    el.addEventListener("mousemove", handleMove);
+    el.addEventListener("mouseleave", handleLeave);
+
+    // Show the cursor right away if the mouse is already sitting over the
+    // frame from before this instance mounted (e.g. it was just over the
+    // right half when its "next project" button triggered this navigation,
+    // and hasn't moved since) — otherwise it stays invisible until the next
+    // real mousemove, which might not come for a while.
+    if (lastClientPos) {
+      const rect = el.getBoundingClientRect();
+      const withinFrame =
+        lastClientPos.x >= rect.left &&
+        lastClientPos.x <= rect.right &&
+        lastClientPos.y >= rect.top &&
+        lastClientPos.y <= rect.bottom;
+      if (withinFrame) updateAt(lastClientPos.x, lastClientPos.y);
+    }
+
+    return () => {
+      el.removeEventListener("mousemove", handleMove);
+      el.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
   function goPrev() {
     if (!prev) return;
     markInternalNavigation();
@@ -223,7 +320,17 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
   const multi = project.images.length > 1;
 
   return (
-    <div ref={containerRef} className="relative min-h-0 flex-1 overflow-hidden">
+    // An explicit opaque background + isolate: mix-blend-mode only computes
+    // against real painted pixels in the same isolated group. Without a
+    // background of its own here, the gutter around a non-full-bleed image
+    // was relying on whatever happens to show through from way up the page
+    // tree — wherever that isn't a solid opaque layer in reach, the cursor
+    // just paints its raw white instead of inverting. Isolating this frame
+    // with its own bg-bg guarantees a real backdrop everywhere in it.
+    <div
+      ref={containerRef}
+      className="relative isolate min-h-0 flex-1 overflow-hidden bg-bg"
+    >
       <div
         className="flex h-full w-full"
         style={{
@@ -269,6 +376,13 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
       <Link
         href="/#projects"
         aria-label="Close"
+        onMouseEnter={() => {
+          overCloseRef.current = true;
+          if (cursorRef.current) cursorRef.current.style.opacity = "0";
+        }}
+        onMouseLeave={() => {
+          overCloseRef.current = false;
+        }}
         className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-gray bg-bg/80 text-ink md:right-6 md:top-6"
       >
         <span className="text-lg leading-none">&times;</span>
@@ -280,18 +394,44 @@ export default function ProjectImageSwiper({ project, prev, next }: Props) {
         <button
           aria-label="Previous project"
           onClick={goPrev}
-          className="cursor-prev absolute inset-y-0 left-0 hidden w-1/2 md:block"
+          className="absolute inset-y-0 left-0 hidden w-1/2 cursor-none md:block"
         />
       )}
       {next && (
         <button
           aria-label="Next project"
           onClick={goNext}
-          className="cursor-next absolute inset-y-0 right-0 hidden w-1/2 md:block"
+          className="absolute inset-y-0 right-0 hidden w-1/2 cursor-none md:block"
         />
       )}
 
+      {/* Follower arrow, positioned imperatively via cursorRef above. Starts
+          at opacity 0 so it never flashes at (0,0) before a position is
+          known — the mount effect above fills that in immediately from the
+          last known mouse position when possible, rather than waiting for a
+          fresh mousemove that may not come right after a click-triggered
+          navigation. */}
+      <div
+        ref={cursorRef}
+        aria-hidden
+        className="cursor-invert pointer-events-none absolute left-0 top-0 z-20 hidden md:block"
+        style={{ opacity: 0 }}
+      >
+        {cursorDir && <NavArrow direction={cursorDir} />}
+      </div>
     </div>
+  );
+}
+
+function NavArrow({ direction }: { direction: "left" | "right" }) {
+  const points =
+    direction === "left"
+      ? "4.4 0 5.08 .73 2.01 3.59 13.34 3.59 13.34 4.59 2.01 4.59 5.08 7.45 4.4 8.18 0 4.09"
+      : "8.94 0 8.26 .73 11.33 3.59 0 3.59 0 4.59 11.33 4.59 8.26 7.45 8.94 8.18 13.34 4.09";
+  return (
+    <svg width="34" height="21" viewBox="0 0 13.34 8.18">
+      <polygon fill="#ffffff" points={points} />
+    </svg>
   );
 }
 

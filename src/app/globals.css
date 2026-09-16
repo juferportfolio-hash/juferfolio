@@ -135,19 +135,28 @@ body {
   animation: vibrate 0.4s ease-in-out;
 }
 
-/* Desktop cursor hints for prev/next navigation inside a project — explicit
-   left/right arrows (not the ambiguous double-headed resize cursors) so the
-   direction you'll swipe to is unambiguous. */
-.cursor-prev {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='21' viewBox='0 0 13.34 8.18'%3E%3Cpolygon fill='%23171717' points='4.4 0 5.08 .73 2.01 3.59 13.34 3.59 13.34 4.59 2.01 4.59 5.08 7.45 4.4 8.18 0 4.09'/%3E%3C/svg%3E") 17 10, w-resize;
-}
-.cursor-next {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='21' viewBox='0 0 13.34 8.18'%3E%3Cpolygon fill='%23171717' points='8.94 0 8.26 .73 11.33 3.59 0 3.59 0 4.59 11.33 4.59 8.26 7.45 8.94 8.18 13.34 4.09'/%3E%3C/svg%3E") 17 10, e-resize;
+/* Desktop prev/next navigation cursor inside a project. This is a JS-tracked
+   overlay (see ProjectImageSwiper's mousemove handler) rather than a native
+   `cursor: url(...)` image — a real OS cursor icon is a static bitmap and
+   can't sample or invert the pixels underneath it. mix-blend-mode: difference
+   on a plain white shape does: composited against whatever's beneath, it
+   reads as the inverse of that color at every pixel, light over dark photos
+   and dark over light ones, with no separate light/dark variant needed. */
+.cursor-invert {
+  mix-blend-mode: difference;
 }
 
 /* Two-column-on-mobile / three-column-on-desktop contact grid, with the CV
    block always directly under Contact (not pushed down by Socials' height)
    on mobile, and Contact/Socials/CV as three even columns on desktop. */
+/* Very light, subtle image shadow. Uses filter: drop-shadow rather than
+   box-shadow so it hugs the actual visible picture rather than the element's
+   CSS box — the two differ wherever object-contain letterboxes an image
+   inside a taller/wider frame (the project detail swiper). */
+.image-shadow {
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.06));
+}
+
 .contact-info-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

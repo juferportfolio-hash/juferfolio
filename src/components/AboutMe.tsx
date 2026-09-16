@@ -92,13 +92,18 @@ export default function AboutMe({ site }: { site: Site }) {
           </div>
         </div>
 
-        <div className="order-1 overflow-hidden rounded-[7px] md:order-2 md:flex-1">
+        {/* isolate + rounding on both the wrapper and the image itself:
+            some mobile browsers fail to clip an <img> to a parent's
+            border-radius when overflow-hidden is the only thing doing the
+            clipping (a known Safari/Chrome corner-rendering bug), so the
+            radius is duplicated onto the image as a belt-and-braces fix. */}
+        <div className="relative isolate order-1 overflow-hidden rounded-[7px] md:order-2 md:flex-1">
           <Image
             src="/images/about/painting.jpg"
             alt="Júlia Ferreira painting a mural"
             width={1174}
             height={1600}
-            className="h-auto w-full"
+            className="block h-auto w-full rounded-[7px]"
           />
         </div>
       </div>
