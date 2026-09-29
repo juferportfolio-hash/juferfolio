@@ -118,7 +118,7 @@ export async function deleteProject(slug: string) {
     await Promise.all(blobs.map((b) => del(b.url)));
     return;
   }
-  const dir = path.join(IMAGES_DIR, slug);
+  const dir = path.join(/*turbopackIgnore: true*/ IMAGES_DIR, slug);
   if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
 }
 
@@ -173,7 +173,7 @@ export async function saveSite(site: Site) {
 /** Only meaningful in fs mode — Blob storage has no directories to create. */
 export function ensureProjectImageDir(slug: string): string | null {
   if (USE_BLOB) return null;
-  const dir = path.join(IMAGES_DIR, slug);
+  const dir = path.join(/*turbopackIgnore: true*/ IMAGES_DIR, slug);
   fs.mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -224,7 +224,7 @@ export async function saveProjectImage(slug: string, file: File): Promise<Projec
   const dir = ensureProjectImageDir(slug)!;
   const index = nextImageIndexFs(dir);
   const filename = `${index}.${format}`;
-  fs.writeFileSync(path.join(dir, filename), buffer);
+  fs.writeFileSync(path.join(/*turbopackIgnore: true*/ dir, filename), buffer);
   return {
     src: `/images/projects/${slug}/${filename}`,
     width,
@@ -240,7 +240,7 @@ export async function deleteProjectImageFile(src: string) {
   }
   if (!src.startsWith("/images/projects/")) return;
   const rel = src.replace("/images/projects/", "");
-  const full = path.join(IMAGES_DIR, rel);
+  const full = path.join(/*turbopackIgnore: true*/ IMAGES_DIR, rel);
   if (fs.existsSync(full)) fs.unlinkSync(full);
 }
 
