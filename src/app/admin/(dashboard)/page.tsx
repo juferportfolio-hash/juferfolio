@@ -2,8 +2,8 @@ import Link from "next/link";
 import { getAllProjects } from "@/lib/store";
 import AdminProjectGrid from "@/components/admin/AdminProjectGrid";
 
-export default function AdminDashboard() {
-  const projects = getAllProjects();
+export default async function AdminDashboard() {
+  const projects = await getAllProjects();
 
   return (
     <div>

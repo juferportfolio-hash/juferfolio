@@ -1,0 +1,12 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/(dashboard)/page": "/admin",
+  "/admin/(dashboard)/projects/[slug]/edit/page": "/admin/projects/[slug]/edit",
+  "/admin/(dashboard)/projects/new/page": "/admin/projects/new",
+  "/admin/(dashboard)/site/page": "/admin/site",
+  "/admin/login/page": "/admin/login",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/projects/[slug]/page": "/projects/[slug]"
+}

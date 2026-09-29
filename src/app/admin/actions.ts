@@ -1,7 +1,5 @@
 "use server";
 
-import fs from "node:fs";
-import path from "node:path";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { MAX_IMAGES_PER_PROJECT, type Project, type Site, type TagId } from "@/lib/data";
@@ -12,6 +10,7 @@ import {
   ensureProjectImageDir,
   getProjectAny,
   getSite,
+  saveCv,
   saveProjectImage,
   saveSite,
   setProjectActive,
@@ -73,7 +72,7 @@ export async function createProjectAction(_prevState: FormState, formData: FormD
     return { error: `Up to ${MAX_IMAGES_PER_PROJECT} images per project — remove some and try again.` };
   }
 
-  const slug = uniqueSlug(slugInput || title);
+  const slug = await uniqueSlug(slugInput || title);
 
   const images = [await saveProjectImage(slug, mainImage)];
   for (const f of extraImages) {
@@ -81,7 +80,7 @@ export async function createProjectAction(_prevState: FormState, formData: FormD
   }
 
   const project: Project = { slug, title, tags, tool, date, time, description, images, active };
-  upsertProject(project);
+  await upsertProject(project);
   revalidateEverywhere(slug);
   redirect(`/admin/projects/${slug}/edit?created=1`);
 }
@@ -93,7 +92,7 @@ export async function updateProjectAction(
 ): Promise<FormState> {
   if (!(await isAuthenticated())) return { error: "Not signed in." };
 
-  const existing = getProjectAny(slug);
+  const existing = await getProjectAny(slug);
   if (!existing) return { error: "Project not found." };
 
   const title = String(formData.get("title") ?? "").trim();
@@ -107,23 +106,23 @@ export async function updateProjectAction(
   const active = formData.get("active") === "on";
 
   const updated: Project = { ...existing, title, tags, tool, date, time, description, active };
-  upsertProject(updated);
+  await upsertProject(updated);
   revalidateEverywhere(slug);
   redirect(`/admin/projects/${slug}/edit?saved=1`);
 }
 
 export async function deleteProjectAction(slug: string, _formData: FormData) {
   if (!(await isAuthenticated())) return;
-  deleteProjectStore(slug);
+  await deleteProjectStore(slug);
   revalidateEverywhere();
   redirect("/admin");
 }
 
 export async function toggleActiveAction(slug: string, _formData: FormData) {
   if (!(await isAuthenticated())) return;
-  const existing = getProjectAny(slug);
+  const existing = await getProjectAny(slug);
   if (!existing) return;
-  setProjectActive(slug, !existing.active);
+  await setProjectActive(slug, !existing.active);
   revalidateEverywhere(slug);
 }
 
@@ -131,7 +130,7 @@ export async function toggleActiveAction(slug: string, _formData: FormData) {
 
 export async function addProjectImagesAction(slug: string, formData: FormData) {
   if (!(await isAuthenticated())) return;
-  const existing = getProjectAny(slug);
+  const existing = await getProjectAny(slug);
   if (!existing) return;
 
   const files = formData.getAll("images").filter(
@@ -144,19 +143,19 @@ export async function addProjectImagesAction(slug: string, formData: FormData) {
   for (const f of toAdd) {
     existing.images.push(await saveProjectImage(slug, f));
   }
-  upsertProject(existing);
+  await upsertProject(existing);
   revalidateEverywhere(slug);
 }
 
 export async function deleteProjectImageAction(slug: string, imageIndex: number, _formData: FormData) {
   if (!(await isAuthenticated())) return;
-  const existing = getProjectAny(slug);
+  const existing = await getProjectAny(slug);
   if (!existing) return;
   if (existing.images.length <= 1) return; // always keep a cover image
 
   const [removed] = existing.images.splice(imageIndex, 1);
-  if (removed) deleteProjectImageFile(removed.src);
-  upsertProject(existing);
+  if (removed) await deleteProjectImageFile(removed.src);
+  await upsertProject(existing);
   revalidateEverywhere(slug);
 }
 
@@ -167,14 +166,14 @@ export async function moveProjectImageAction(
   _formData: FormData
 ) {
   if (!(await isAuthenticated())) return;
-  const existing = getProjectAny(slug);
+  const existing = await getProjectAny(slug);
   if (!existing) return;
 
   const j = imageIndex + direction;
   if (j < 0 || j >= existing.images.length) return;
   const arr = existing.images;
   [arr[imageIndex], arr[j]] = [arr[j], arr[imageIndex]];
-  upsertProject(existing);
+  await upsertProject(existing);
   revalidateEverywhere(slug);
 }
 
@@ -186,18 +185,15 @@ export async function updateSiteAction(_prevState: FormState, formData: FormData
   // The CV is a PDF upload, not a plain URL field: keep whatever's currently
   // set unless a new file was chosen, so re-saving the rest of the form
   // never accidentally clears it.
-  let cvUrl = getSite().contact.cvUrl;
+  let cvUrl = (await getSite()).contact.cvUrl;
   const cvFile = formData.get("cvFile");
   if (cvFile instanceof File && cvFile.size > 0) {
     const isPdf =
       cvFile.type === "application/pdf" || cvFile.name.toLowerCase().endsWith(".pdf");
     if (!isPdf) return { error: "CV must be a PDF file." };
 
-    const dir = path.join(process.cwd(), "public", "documents");
-    fs.mkdirSync(dir, { recursive: true });
     const buffer = Buffer.from(await cvFile.arrayBuffer());
-    fs.writeFileSync(path.join(dir, "cv.pdf"), buffer);
-    cvUrl = `/documents/cv.pdf?v=${Date.now()}`;
+    cvUrl = await saveCv(buffer);
   }
 
   const site: Site = {
@@ -217,7 +213,7 @@ export async function updateSiteAction(_prevState: FormState, formData: FormData
       cvUrl,
     },
   };
-  saveSite(site);
+  await saveSite(site);
   revalidatePath("/");
   revalidatePath("/admin/site");
   redirect("/admin/site?saved=1");

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { MAX_IMAGES_PER_PROJECT } from "@/lib/data";
 import { getProjectAny } from "@/lib/store";
 import { addProjectImagesAction, updateProjectAction } from "@/app/admin/actions";
 import ProjectForm from "@/components/admin/ProjectForm";
@@ -12,7 +13,7 @@ export default async function EditProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectAny(slug);
+  const project = await getProjectAny(slug);
   if (!project) notFound();
 
   const boundUpdate = updateProjectAction.bind(null, slug);
@@ -32,7 +33,7 @@ export default async function EditProjectPage({
       <hr className="my-8 border-gray" />
 
       <h2 className="font-caslon text-[20px] font-bold">
-        images ({project.images.length}/20)
+        images ({project.images.length}/{MAX_IMAGES_PER_PROJECT})
       </h2>
       <ImageManager slug={project.slug} images={project.images} addAction={boundAddImages} />
 

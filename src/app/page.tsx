@@ -9,9 +9,9 @@ import { getActiveProjects, getSite } from "@/lib/store";
 // statically generated at build time.
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const projects = getActiveProjects();
-  const site = getSite();
+export default async function Home() {
+  const projects = await getActiveProjects();
+  const site = await getSite();
 
   return (
     <main>

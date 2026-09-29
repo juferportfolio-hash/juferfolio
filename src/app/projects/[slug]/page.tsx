@@ -6,10 +6,10 @@ export const dynamic = "force-dynamic";
 
 export default async function ProjectPage(props: PageProps<"/projects/[slug]">) {
   const { slug } = await props.params;
-  const project = getProject(slug);
+  const project = await getProject(slug);
   if (!project) notFound();
 
-  const { prev, next } = getAdjacentProjects(slug);
+  const { prev, next } = await getAdjacentProjects(slug);
 
   return <ProjectDetail project={project} prev={prev} next={next} />;
 }

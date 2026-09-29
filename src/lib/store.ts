@@ -2,47 +2,90 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { del, head, list as blobList, put } from "@vercel/blob";
 import type { Project, ProjectImage, Site } from "@/lib/data";
+
+// Vercel's serverless functions run on a read-only filesystem, so the plain
+// fs reads/writes below (which work great locally, or on any host with a
+// persistent disk) fail there with EROFS. When a Blob read/write token is
+// configured (set BLOB_READ_WRITE_TOKEN — automatic once a Blob store is
+// connected to the Vercel project, or added by hand for local testing),
+// every write — and every read once anything has actually been written —
+// goes through Vercel Blob storage instead. The bundled data/*.json files
+// still ship with the deployment and serve as the seed data until the first
+// admin edit creates the real Blob copy.
+const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const PROJECTS_FILE = path.join(DATA_DIR, "projects.json");
 const SITE_FILE = path.join(DATA_DIR, "site.json");
 export const IMAGES_DIR = path.join(process.cwd(), "public", "images", "projects");
 
-function readJson<T>(file: string): T {
+const PROJECTS_BLOB_PATH = "data/projects.json";
+const SITE_BLOB_PATH = "data/site.json";
+const IMAGES_BLOB_PREFIX = "images/projects/";
+const CV_BLOB_PATH = "documents/cv.pdf";
+
+// ---- Low-level JSON read/write, fs or Blob -------------------------------
+
+function readJsonFile<T>(file: string): T {
   return JSON.parse(fs.readFileSync(file, "utf8")) as T;
 }
 
-function writeJson(file: string, data: unknown) {
+function writeJsonFile(file: string, data: unknown) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
 
-// ---- Projects -------------------------------------------------------------
-
-export function getAllProjects(): Project[] {
-  return readJson<Project[]>(PROJECTS_FILE);
+/** Reads JSON from Blob storage if it's been written there yet; otherwise
+ * falls back to the bundled seed file (Blob is left untouched — the next
+ * write creates it there). */
+async function readJsonBlob<T>(blobPath: string, seedFile: string): Promise<T> {
+  try {
+    const info = await head(blobPath);
+    const res = await fetch(info.url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Blob fetch failed: ${res.status}`);
+    return (await res.json()) as T;
+  } catch {
+    return readJsonFile<T>(seedFile);
+  }
 }
 
-export function getActiveProjects(): Project[] {
-  return getAllProjects().filter((p) => p.active);
+async function writeJsonBlob(blobPath: string, data: unknown) {
+  await put(blobPath, JSON.stringify(data, null, 2), {
+    access: "public",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+  });
+}
+
+// ---- Projects -------------------------------------------------------------
+
+export async function getAllProjects(): Promise<Project[]> {
+  if (USE_BLOB) return readJsonBlob<Project[]>(PROJECTS_BLOB_PATH, PROJECTS_FILE);
+  return readJsonFile<Project[]>(PROJECTS_FILE);
+}
+
+export async function getActiveProjects(): Promise<Project[]> {
+  return (await getAllProjects()).filter((p) => p.active);
 }
 
 /** Looks up a project regardless of active state (used by the admin section). */
-export function getProjectAny(slug: string): Project | undefined {
-  return getAllProjects().find((p) => p.slug === slug);
+export async function getProjectAny(slug: string): Promise<Project | undefined> {
+  return (await getAllProjects()).find((p) => p.slug === slug);
 }
 
 /** Looks up a project the way the public site does: only if it's active. */
-export function getProject(slug: string): Project | undefined {
-  return getActiveProjects().find((p) => p.slug === slug);
+export async function getProject(slug: string): Promise<Project | undefined> {
+  return (await getActiveProjects()).find((p) => p.slug === slug);
 }
 
-export function getAdjacentProjects(slug: string): {
+export async function getAdjacentProjects(slug: string): Promise<{
   prev: Project | null;
   next: Project | null;
-} {
-  const list = getActiveProjects();
+}> {
+  const list = await getActiveProjects();
   const i = list.findIndex((p) => p.slug === slug);
   if (i === -1) return { prev: null, next: null };
   const prev = list[(i - 1 + list.length) % list.length];
@@ -50,31 +93,41 @@ export function getAdjacentProjects(slug: string): {
   return { prev, next };
 }
 
-function saveAllProjects(projects: Project[]) {
-  writeJson(PROJECTS_FILE, projects);
+async function saveAllProjects(projects: Project[]) {
+  if (USE_BLOB) {
+    await writeJsonBlob(PROJECTS_BLOB_PATH, projects);
+    return;
+  }
+  writeJsonFile(PROJECTS_FILE, projects);
 }
 
-export function upsertProject(project: Project) {
-  const all = getAllProjects();
+export async function upsertProject(project: Project) {
+  const all = await getAllProjects();
   const i = all.findIndex((p) => p.slug === project.slug);
   if (i === -1) all.push(project);
   else all[i] = project;
-  saveAllProjects(all);
+  await saveAllProjects(all);
 }
 
-export function deleteProject(slug: string) {
-  const all = getAllProjects().filter((p) => p.slug !== slug);
-  saveAllProjects(all);
+export async function deleteProject(slug: string) {
+  const all = (await getAllProjects()).filter((p) => p.slug !== slug);
+  await saveAllProjects(all);
+
+  if (USE_BLOB) {
+    const { blobs } = await blobList({ prefix: `${IMAGES_BLOB_PREFIX}${slug}/` });
+    await Promise.all(blobs.map((b) => del(b.url)));
+    return;
+  }
   const dir = path.join(IMAGES_DIR, slug);
   if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
 }
 
-export function setProjectActive(slug: string, active: boolean) {
-  const all = getAllProjects();
+export async function setProjectActive(slug: string, active: boolean) {
+  const all = await getAllProjects();
   const p = all.find((x) => x.slug === slug);
   if (!p) return;
   p.active = active;
-  saveAllProjects(all);
+  await saveAllProjects(all);
 }
 
 export function slugify(input: string): string {
@@ -88,8 +141,8 @@ export function slugify(input: string): string {
 }
 
 /** Slugifies `base` and appends -2, -3, ... until the result is free. */
-export function uniqueSlug(base: string, excludeSlug?: string): string {
-  const all = getAllProjects();
+export async function uniqueSlug(base: string, excludeSlug?: string): Promise<string> {
+  const all = await getAllProjects();
   const root = slugify(base);
   let slug = root;
   let n = 2;
@@ -102,24 +155,31 @@ export function uniqueSlug(base: string, excludeSlug?: string): string {
 
 // ---- Site texts -------------------------------------------------------------
 
-export function getSite(): Site {
-  return readJson<Site>(SITE_FILE);
+export async function getSite(): Promise<Site> {
+  if (USE_BLOB) return readJsonBlob<Site>(SITE_BLOB_PATH, SITE_FILE);
+  return readJsonFile<Site>(SITE_FILE);
 }
 
-export function saveSite(site: Site) {
-  writeJson(SITE_FILE, site);
+export async function saveSite(site: Site) {
+  if (USE_BLOB) {
+    await writeJsonBlob(SITE_BLOB_PATH, site);
+    return;
+  }
+  writeJsonFile(SITE_FILE, site);
 }
 
 // ---- Images -------------------------------------------------------------
 
-export function ensureProjectImageDir(slug: string): string {
+/** Only meaningful in fs mode — Blob storage has no directories to create. */
+export function ensureProjectImageDir(slug: string): string | null {
+  if (USE_BLOB) return null;
   const dir = path.join(IMAGES_DIR, slug);
   fs.mkdirSync(dir, { recursive: true });
   return dir;
 }
 
 /** Next free numeric filename (ignoring extension) inside a project's image folder. */
-function nextImageIndex(dir: string): number {
+function nextImageIndexFs(dir: string): number {
   let next = 0;
   if (fs.existsSync(dir)) {
     for (const name of fs.readdirSync(dir)) {
@@ -130,26 +190,75 @@ function nextImageIndex(dir: string): number {
   return next;
 }
 
-/** Reads an uploaded image, writes it to disk, and returns its ProjectImage record. */
+async function nextImageIndexBlob(slug: string): Promise<number> {
+  const prefix = `${IMAGES_BLOB_PREFIX}${slug}/`;
+  const { blobs } = await blobList({ prefix });
+  let next = 0;
+  for (const b of blobs) {
+    const n = parseInt(b.pathname.slice(prefix.length), 10);
+    if (!Number.isNaN(n) && n >= next) next = n + 1;
+  }
+  return next;
+}
+
+/** Reads an uploaded image, stores it (Blob or disk), and returns its ProjectImage record. */
 export async function saveProjectImage(slug: string, file: File): Promise<ProjectImage> {
-  const dir = ensureProjectImageDir(slug);
   const buffer = Buffer.from(await file.arrayBuffer());
   const meta = await sharp(buffer).metadata();
   const format = meta.format === "jpeg" ? "jpg" : meta.format || "jpg";
-  const index = nextImageIndex(dir);
+  const width = meta.width ?? 0;
+  const height = meta.height ?? 0;
+
+  if (USE_BLOB) {
+    const index = await nextImageIndexBlob(slug);
+    const blobPath = `${IMAGES_BLOB_PREFIX}${slug}/${index}.${format}`;
+    const { url } = await put(blobPath, buffer, {
+      access: "public",
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: `image/${format === "jpg" ? "jpeg" : format}`,
+    });
+    return { src: url, width, height };
+  }
+
+  const dir = ensureProjectImageDir(slug)!;
+  const index = nextImageIndexFs(dir);
   const filename = `${index}.${format}`;
   fs.writeFileSync(path.join(dir, filename), buffer);
   return {
     src: `/images/projects/${slug}/${filename}`,
-    width: meta.width ?? 0,
-    height: meta.height ?? 0,
+    width,
+    height,
   };
 }
 
-/** Deletes an image file that lives under the per-project images folder (no-op otherwise). */
-export function deleteProjectImageFile(src: string) {
+/** Deletes a project image, from Blob storage or the per-project images folder. */
+export async function deleteProjectImageFile(src: string) {
+  if (USE_BLOB && /^https?:\/\//.test(src)) {
+    await del(src);
+    return;
+  }
   if (!src.startsWith("/images/projects/")) return;
   const rel = src.replace("/images/projects/", "");
   const full = path.join(IMAGES_DIR, rel);
   if (fs.existsSync(full)) fs.unlinkSync(full);
+}
+
+// ---- CV upload -------------------------------------------------------------
+
+/** Saves the CV PDF (Blob or disk) and returns a cache-busted URL for it. */
+export async function saveCv(buffer: Buffer): Promise<string> {
+  if (USE_BLOB) {
+    const { url } = await put(CV_BLOB_PATH, buffer, {
+      access: "public",
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: "application/pdf",
+    });
+    return `${url}?v=${Date.now()}`;
+  }
+  const dir = path.join(process.cwd(), "public", "documents");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "cv.pdf"), buffer);
+  return `/documents/cv.pdf?v=${Date.now()}`;
 }
