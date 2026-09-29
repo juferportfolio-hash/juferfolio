@@ -43,7 +43,11 @@ function writeJsonFile(file: string, data: unknown) {
 async function readJsonBlob<T>(blobPath: string, seedFile: string): Promise<T> {
   try {
     const info = await head(blobPath);
-    const res = await fetch(info.url, { cache: "no-store" });
+    // cache: "no-store" bypasses Next's own data cache; the query-string
+    // cache-buster below additionally defeats any lingering CDN/browser
+    // cache on the blob URL itself now that it's always written as
+    // uncacheable (see cacheControlMaxAge above), belt and braces.
+    const res = await fetch(`${info.url}?ts=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`Blob fetch failed: ${res.status}`);
     return (await res.json()) as T;
   } catch {
@@ -57,6 +61,12 @@ async function writeJsonBlob(blobPath: string, data: unknown) {
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
+    // These files change on every admin edit (e.g. toggling a project
+    // active/inactive), unlike images/the CV. Vercel Blob's default is to
+    // cache a file at the edge for a long time, which was making edits show
+    // up only once that cache happened to expire. max-age 0 keeps every
+    // read hitting fresh data instead.
+    cacheControlMaxAge: 0,
   });
 }
 

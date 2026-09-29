@@ -1,0 +1,115 @@
+{
+  "node": {
+    "40321371f7f246740d683137a5e871828da188bf2e": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "logoutAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "6047febb95c9fc3d2a6f0f4045d6ae6a8b51681c0a": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createProjectAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "6095bed7a6d74daab51ebbe88327846acc0d0d0a8d": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateSiteAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "60c189e861d59905e3ad619330253ecd0b2ebb9418": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "toggleActiveAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "60cc311811af0ee33cf4eb30ebe68c82e8ed21f3a3": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "loginAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "60d5fa75aa95dbb2d23b8ae3f5d45014b23a8f9ebf": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "addProjectImagesAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "60dc050d00168017a74a7c6764cb98c4a24107aed8": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "deleteProjectAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "7079c78c862997f99162aec8d7c9a4a19e6471db32": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateProjectAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "70b18f967313ae374988cecf13985a2f652e4fe1aa": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "deleteProjectImageAction",
+      "filename": "src/app/admin/actions.ts"
+    },
+    "78e50e20128d8c2ac73d030981cec86fabc4bf31ed": {
+      "workers": {
+        "app/admin/(dashboard)/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/admin/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "moveProjectImageAction",
+      "filename": "src/app/admin/actions.ts"
+    }
+  },
+  "edge": {}
+}
