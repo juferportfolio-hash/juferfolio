@@ -1,13 +1,7 @@
-import { getSite } from "@/lib/store";
-import { updateSiteAction } from "@/app/admin/actions";
+import { getSite, STORAGE_MODE } from "@/lib/store";
 import SiteForm from "@/components/admin/SiteForm";
 
 export default async function AdminSitePage() {
   const site = await getSite();
-  return (
-    <div>
-      <h1 className="font-caslon text-[26px] font-bold">site texts</h1>
-      <SiteForm action={updateSiteAction} site={site} />
-    </div>
-  );
+  return <SiteForm site={site} storageMode={STORAGE_MODE} />;
 }

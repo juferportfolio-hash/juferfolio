@@ -132,20 +132,20 @@ scattered magic numbers:
 Visit `/admin` and sign in with the password in `.env.local` (`ADMIN_PASSWORD` — an
 initial one was generated for you; change it any time, it's just a plain env var).
 
-From there you can:
+From there you can (works on phones too):
 
-- **Add a project** (`/admin/projects/new`) — title, tags, date, time period, tool,
-  description, a required main/cover image, and up to 19 additional images.
-- **Edit a project** (`/admin/projects/[slug]/edit`) — edit all text fields, add more
-  images (up to 20 total), remove individual images, reorder them with ↑/↓ (the first
-  image is always the one docked at the top of the project page, the rest stack below
-  it, exactly like the current mural-painting project), toggle "visible on the live
-  site", or delete the project entirely (also deletes its image files).
-- **Set a project active/inactive** from the dashboard list without opening it — an
-  inactive project is kept in the admin list but hidden from the public site (grid,
-  prev/next navigation, and its own `/projects/[slug]` page all 404 it).
-- **Edit site texts** (`/admin/site`) — hero text, about-me paragraphs, and contact
-  links, all previously hardcoded in `src/lib/data.ts`.
+- **Projects dashboard** (`/admin`) — search, filter by live/hidden and by tag, flip a
+  project live/hidden with its switch (instant), delete it, or hit **Reorder** and drag
+  projects into the order they appear on the site (press-and-hold to drag on touch).
+  New projects are added at the top.
+- **Add / edit a project** (`/admin/projects/new`, `/admin/projects/[slug]/edit`) —
+  text fields, tags, visibility, and up to 60 images. Images upload as soon as you
+  pick or drop them (with progress), large photos are downscaled in the browser to
+  3200px first, and you can drag to reorder, "Set cover", or remove. The first image
+  is the cover. Nothing changes on the site until you press **Save** (or Ctrl/Cmd+S);
+  images you removed are deleted from storage after the save.
+- **Edit site texts** (`/admin/site`) — hero text, about-me paragraphs, contact links
+  and the CV PDF.
 
 Auth is a signed, httpOnly session cookie (`src/lib/auth.ts`) — no third-party auth
 dependency. Every mutation goes through a Next.js Server Action in
@@ -153,22 +153,29 @@ dependency. Every mutation goes through a Next.js Server Action in
 data can't be edited by POSTing to an action without a valid cookie even if someone
 finds the URL.
 
-### How content is stored (and why this matters for deployment)
+### How content is stored
 
-Projects and site text live in `data/projects.json` / `data/site.json`; uploaded
-images are written straight to `public/images/projects/<slug>/`. Both are read and
-written with plain Node `fs` calls (`src/lib/store.ts`), and the homepage/project
-pages are rendered dynamically (`export const dynamic = "force-dynamic"`) so admin
-edits show up immediately with no rebuild.
+`src/lib/store.ts` picks one of two backends:
 
-This works well for **any host with a persistent, writable filesystem** — a VPS, a
-Docker container with a mounted volume, a Mac mini/home server running `npm run
-build && npm start`, etc. It will **not** work on serverless/edge hosts with a
-read-only or ephemeral filesystem (Vercel's production runtime is the common example
-— uploads and edits would appear to save and then vanish on the next cold start,
-since there's no persistent disk and no CDN invalidation for `public/`). If you end up
-hosting there, the migration path is exactly what was originally sketched here: move
-`data/*.json` into a real database (Vercel Postgres/Supabase/Neon) and uploaded images
-into object storage (Vercel Blob/S3/Cloudinary) — `src/lib/store.ts` is the one file
-that would need to change; nothing in the admin UI or the public pages talks to the
-filesystem directly.
+- **Vercel Blob** — whenever `BLOB_READ_WRITE_TOKEN` is set (automatic once a Blob
+  store is connected to the Vercel project). This is the production setup.
+- **Local files** — otherwise: `data/*.json` plus uploads under `public/`. Handy for
+  `npm run dev` without touching production data.
+
+Details that matter on Vercel:
+
+- **Uploads never pass through a function.** Vercel rejects function request bodies over
+  ~4.5 MB, so the browser asks `/api/admin/upload` for a short-lived upload token and
+  then sends the file straight to Blob. Server Actions only ever receive URLs and sizes.
+- **Content is versioned, not overwritten.** Every save writes a new immutable
+  `content/projects/<timestamp>-….json` (or `content/site/…`) and reads take the newest
+  one. Overwriting one file doesn't work on a public Blob store: its CDN caches each URL
+  for at least 60 s, so edits showed up late and a quick second edit could undo the
+  first. The last ~20 versions are kept as an undo history (restore one by copying it
+  in the Blob dashboard); older ones are pruned automatically. If no versions exist yet,
+  the old `data/projects.json` blob, and then the bundled `data/*.json`, are used as
+  the starting point.
+- **Reads are cached.** Pages read content through Next's data cache (tag `content`), and
+  every admin save expires it, so edits are live immediately while normal visits don't
+  hit Blob. As a safety net the cache also refreshes hourly, which also picks up edits
+  made from a local dev server pointed at the same Blob store.
