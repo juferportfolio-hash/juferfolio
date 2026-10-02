@@ -1,11 +1,6 @@
-import ProjectForm from "@/components/admin/ProjectForm";
-import { createProjectAction } from "@/app/admin/actions";
+import ProjectEditor from "@/components/admin/ProjectEditor";
+import { STORAGE_MODE } from "@/lib/store";
 
 export default function NewProjectPage() {
-  return (
-    <div>
-      <h1 className="font-caslon text-[26px] font-bold">add project</h1>
-      <ProjectForm action={createProjectAction} submitLabel="Create project" />
-    </div>
-  );
+  return <ProjectEditor storageMode={STORAGE_MODE} />;
 }

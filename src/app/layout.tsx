@@ -5,8 +5,7 @@ import "@fontsource/archivo/500.css";
 import "@fontsource/archivo/600.css";
 import "@fontsource/archivo/700.css";
 import "./globals.css";
-import Frame from "@/components/Frame";
-import Header from "@/components/Header";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Júlia Ferreira — Portfolio",
@@ -21,10 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="https://use.typekit.net/pok1buc.css" />
       </head>
       <body className="h-full bg-bg text-ink font-archivo">
-        <div className="fixed inset-3 flex flex-col">
-          <Header />
-          <Frame>{children}</Frame>
-        </div>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
