@@ -1,6 +1,0 @@
-{
-  "/admin/(dashboard)/page": "app/admin/(dashboard)/page.js",
-  "/admin/(dashboard)/projects/[slug]/edit/page": "app/admin/(dashboard)/projects/[slug]/edit/page.js",
-  "/admin/login/page": "app/admin/login/page.js",
-  "/page": "app/page.js"
-}
